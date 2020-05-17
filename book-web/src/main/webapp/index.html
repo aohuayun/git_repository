@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>英泰移动通信学院</title>
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <script>
+        $(function () {
+            $("#frm1").submit(function () {
+                $.post(
+                    "books/findByName",
+                    $(this).serialize(),
+                    function (data) {
+                      if(data.list.length>0){
+                          var s = " <tr><th>编号</th><th>名称</th><th>价格</th><th>库存</th></tr>" ;
+                          /*
+                          for(var i = 0;i <data.length;i++){
+                                s+= "<tr><td>"+data[i].id+
+                                    "</td><td>"+data[i].name+
+                                    "</td><td>"+data[i].price+
+                                    "</td><td>"+data[i].stock+"</td></tr>";
+                          }*/
+                          $.each(data.list,function (i,book) {
+                              s+= "<tr><td>"+book.id+
+                                  "</td><td>"+book.name+
+                                  "</td><td>"+book.price+
+                                  "</td><td>"+book.stock+"</td></tr>";
+                          })
+                          $("table").html(s);
+                          var  a = "<a href='books/findByName?page=1'>第一页</a>"+
+                              "<a href='books/findByName?"+data.prePage+">上一页</a>"+
+                              "<a href='books/findByName?"+data.nextPage+">下一页</a>"+
+                              "<a href='books/findByName?'"+data.pages+">最后一页</a>";
+                          $("#navigation").html(a);
+                      }else {
+                          $("#nobook").text("查无此书");
+                      }
+                    },
+                    "json"
+                );
+                //取消表单的默认行为
+                return false;
+            });
+            $("a").click(function(){
+                $.post(
+                    this.href,
+                    function (data) {
+                        if(data.list.length>0){
+                            var s = " <tr><th>编号</th><th>名称</th><th>价格</th><th>库存</th></tr>" ;
+                            /*
+                            for(var i = 0;i <data.length;i++){
+                                  s+= "<tr><td>"+data[i].id+
+                                      "</td><td>"+data[i].name+
+                                      "</td><td>"+data[i].price+
+                                      "</td><td>"+data[i].stock+"</td></tr>";
+                            }*/
+                            $.each(data.list,function (i,book) {
+                                s+= "<tr><td>"+book.id+
+                                    "</td><td>"+book.name+
+                                    "</td><td>"+book.price+
+                                    "</td><td>"+book.stock+"</td></tr>";
+                            })
+                            $("table").html(s);
+                        }else {
+                            $("#nobook").text("查无此书");
+                        }
+                    },
+                    "json"
+                );
+                return false;
+            });
+        })
+    </script>
+</head>
+<body>
+<form id="frm1" >
+    图书名称:<input type="text" name="name">
+    <input type="submit" value="查询">
+</form>
+<br>
+<table border="1" cellpadding="10" cellspacing="0">
+    <tr><th>编号</th><th>名称</th><th>价格</th><th>库存</th></tr>
+    <tr><td colspan="4" align="center" id="nobook">无图书信息</td></tr>
+</table>
+<div id="navigation">
+<a href="">第一页</a><a href="">上一页</a><a href="">下一页</a><a href="">最后一页</a>
+</div>
+
+</body>
+</html>
