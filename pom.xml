@@ -21,7 +21,7 @@
     <spring-version>5.2.6.RELEASE</spring-version>
     <mybatis-version>3.5.4</mybatis-version>
     <mybatis-spring-version>2.0.4</mybatis-spring-version>
-    <jackson-version>2.11.0</jackson-version>
+    <jackson-version>2.12.6.1</jackson-version>
     <pagehelper-version>5.1.11</pagehelper-version>
   </properties>
   <!--声明依赖-->
